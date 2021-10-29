@@ -60,7 +60,7 @@ type Props = CommonFetcherProps &
 
 const useDataFetcher = <TType extends object>(props: Props) => {
   const spotifyDataFetcher = useSpotifyDataFetcher();
-  const appleDataFetcher = useMKDataFetcher();
+  //const appleDataFetcher = useMKDataFetcher();
   const { service, isAppleAuthorized, isSpotifyAuthorized } = useSettings();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -70,57 +70,43 @@ const useDataFetcher = <TType extends object>(props: Props) => {
   const fetchAlbums = useCallback(async () => {
     let albums: IpodApi.Album[] | undefined;
 
-    if (service === 'apple') {
-      albums = await appleDataFetcher.fetchAlbums();
-    } else if (service === 'spotify') {
+    if (service === 'spotify') {
       albums = await spotifyDataFetcher.fetchAlbums();
     }
 
     setData(albums as TType);
     setIsLoading(false);
-  }, [appleDataFetcher, service, spotifyDataFetcher]);
+  }, [service, spotifyDataFetcher]);
 
   const fetchAlbum = useCallback(
     async (options: AlbumFetcherProps) => {
       let album: IpodApi.Album | undefined;
 
-      if (service === 'apple') {
-        album = await appleDataFetcher.fetchAlbum(
-          options.id,
-          options.inLibrary
-        );
-      } else if (service === 'spotify') {
+      if (service === 'spotify') {
         album = await spotifyDataFetcher.fetchAlbum(options.userId, options.id);
       }
 
       setData(album as TType);
       setIsLoading(false);
     },
-    [appleDataFetcher, service, spotifyDataFetcher]
+    [service, spotifyDataFetcher]
   );
 
   const fetchArtists = useCallback(async () => {
     let artists: IpodApi.Artist[] | undefined;
 
-    if (service === 'apple') {
-      artists = await appleDataFetcher.fetchArtists();
-    } else if (service === 'spotify') {
+    if (service === 'spotify') {
       artists = await spotifyDataFetcher.fetchArtists();
     }
     setData(artists as TType);
     setIsLoading(false);
-  }, [appleDataFetcher, service, spotifyDataFetcher]);
+  }, [service, spotifyDataFetcher]);
 
   const fetchArtistAlbums = useCallback(
     async (options: ArtistFetcherProps) => {
       let albums: IpodApi.Album[] | undefined;
 
-      if (service === 'apple') {
-        albums = await appleDataFetcher.fetchArtistAlbums(
-          options.id,
-          options.inLibrary
-        );
-      } else if (service === 'spotify') {
+      if (service === 'spotify') {
         albums = await spotifyDataFetcher.fetchArtist(
           options.userId,
           options.id
@@ -130,32 +116,25 @@ const useDataFetcher = <TType extends object>(props: Props) => {
       setData(albums as TType);
       setIsLoading(false);
     },
-    [appleDataFetcher, service, spotifyDataFetcher]
+    [service, spotifyDataFetcher]
   );
 
   const fetchPlaylists = useCallback(async () => {
     let playlists: IpodApi.Playlist[] | undefined;
 
-    if (service === 'apple') {
-      playlists = await appleDataFetcher.fetchPlaylists();
-    } else if (service === 'spotify') {
+    if (service === 'spotify') {
       playlists = await spotifyDataFetcher.fetchPlaylists();
     }
 
     setData(playlists as TType);
     setIsLoading(false);
-  }, [appleDataFetcher, service, spotifyDataFetcher]);
+  }, [service, spotifyDataFetcher]);
 
   const fetchPlaylist = useCallback(
     async (options: PlaylistFetcherProps) => {
       let playlist: IpodApi.Playlist | undefined;
 
-      if (service === 'apple') {
-        playlist = await appleDataFetcher.fetchPlaylist(
-          options.id,
-          options.inLibrary
-        );
-      } else if (service === 'spotify') {
+      if (service === 'spotify') {
         playlist = await spotifyDataFetcher.fetchPlaylist(
           options.userId,
           options.id
@@ -164,7 +143,7 @@ const useDataFetcher = <TType extends object>(props: Props) => {
       setData(playlist as TType);
       setIsLoading(false);
     },
-    [appleDataFetcher, service, spotifyDataFetcher]
+    [service, spotifyDataFetcher]
   );
 
   const fetchSearchResults = useCallback(
@@ -176,16 +155,12 @@ const useDataFetcher = <TType extends object>(props: Props) => {
         searchResults = await spotifyDataFetcher.fetchSearchResults(
           options.query
         );
-      } else if (service === 'apple') {
-        searchResults = await appleDataFetcher.fetchSearchResults(
-          options.query
-        );
-      }
+      } 
 
       setData(searchResults as TType);
       setIsLoading(false);
     },
-    [appleDataFetcher, service, spotifyDataFetcher]
+    [service, spotifyDataFetcher]
   );
 
   const handleFetch = useCallback(async () => {

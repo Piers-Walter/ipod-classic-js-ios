@@ -38,9 +38,9 @@ export const useMusicKit = (): MusicKitHook => {
     useSettings();
   const { isConfigured, hasDevToken } = useContext(MusicKitContext);
   const music = useMemo(() => {
-    if (!isConfigured || !hasDevToken) {
-      return {} as MusicKit.MusicKitInstance;
-    }
+    // if (!isConfigured || !hasDevToken) {
+    //   return {} as MusicKit.MusicKitInstance;
+    // }
 
     return window.MusicKit.getInstance();
   }, [hasDevToken, isConfigured]);
@@ -77,31 +77,16 @@ interface Props {
 
 export const MusicKitProvider = ({ children }: Props) => {
   const musicKit = window.MusicKit;
-  const [hasDevToken, setHasDevToken] = useState(false);
-  const [isConfigured, setIsConfigured] = useState(false);
+  const [hasDevToken, setHasDevToken] = useState(true);
+  const [isConfigured, setIsConfigured] = useState(true);
   const { setIsAppleAuthorized, setService: setStreamingService } =
     useSettings();
 
   const handleConfigure = useCallback(async () => {
     try {
-      const music = await musicKit.configure({
-        developerToken:
-          DEVELOPER_TOKEN ??
-          new URLSearchParams(window.location.search).get('token') ??
-          undefined,
-        app: {
-          name: 'iPod.js',
-          build: '1.0',
-        },
-      });
+      setIsAppleAuthorized(true);
+      setHasDevToken(true);
 
-      if (music) {
-        setHasDevToken(true);
-      }
-
-      if (music.isAuthorized) {
-        setIsAppleAuthorized(true);
-      }
     } catch (e) {
       setHasDevToken(false);
     }
@@ -114,13 +99,14 @@ export const MusicKitProvider = ({ children }: Props) => {
   }, [handleConfigure, isConfigured]);
 
   useMKEventListener('userTokenDidChange', (e) => {
-    if (e.userToken) {
-      setIsAppleAuthorized(true);
-      setStreamingService('apple');
-    } else {
-      setIsAppleAuthorized(false);
-      setStreamingService(undefined);
-    }
+    setStreamingService('spotify')
+    // if (e.userToken) {
+    //   setIsAppleAuthorized(true);
+    //   setStreamingService('apple');
+    // } else {
+    //   setIsAppleAuthorized(false);
+    //   setStreamingService(undefined);
+    // }
   });
 
   useEventListener('musickitconfigured', () => {
