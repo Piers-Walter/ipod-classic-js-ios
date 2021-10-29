@@ -17,14 +17,12 @@ import {
 } from 'components/views';
 import {
   useMenuHideWindow,
-  useMusicKit,
   useScrollHandler,
   useSettings,
 } from 'hooks';
 
 const MusicView = () => {
   const { service } = useSettings();
-  const { music } = useMusicKit();
   useMenuHideWindow(ViewOptions.music.id);
 
   const options: SelectableListOption[] = useMemo(() => {
@@ -66,18 +64,10 @@ const MusicView = () => {
       },
     ];
 
-    if (music.isAuthorized && music.player?.nowPlayingItem?.isPlayable) {
-      arr.push({
-        type: 'View',
-        label: 'Now playing',
-        viewId: ViewOptions.nowPlaying.id,
-        component: () => <NowPlayingView />,
-        preview: PREVIEW.NOW_PLAYING,
-      });
-    }
+    
 
     return arr;
-  }, [music.isAuthorized, music.player?.nowPlayingItem?.isPlayable, service]);
+  }, [service]);
 
   const [scrollIndex] = useScrollHandler(ViewOptions.music.id, options);
 
