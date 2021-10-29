@@ -56,12 +56,7 @@ interface Props {
 }
 
 const AuthPrompt = ({ message }: Props) => {
-  const [icon, setIcon] = useState<'apple' | 'spotify'>('apple');
-
-  useInterval(
-    () => setIcon((prevState) => (prevState === 'apple' ? 'spotify' : 'apple')),
-    4000
-  );
+  const [icon, setIcon] = useState<'apple' | 'spotify'>('spotify');
 
   return (
     <RootContainer>

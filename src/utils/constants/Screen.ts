@@ -8,18 +8,18 @@ const XS = {
 };
 
 const SM = {
-  MediaQuery: '@media (max-width: 576px)',
+  MediaQuery: '@media (max-width: 374px)',
   Size: {
     Min: 576,
-    Max: 767,
+    Max: 413,
   },
   ContainerMaxWidth: '540px',
 };
 
 const MD = {
-  MediaQuery: '@media (min-width: 768px)',
+  MediaQuery: '@media (min-width: 375px)',
   Size: {
-    Min: 768,
+    Min: 414,
     Max: 991,
   },
   ContainerMaxWidth: '720px',

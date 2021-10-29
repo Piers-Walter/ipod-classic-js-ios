@@ -57,7 +57,6 @@ const Shell = styled.div<{ deviceTheme: DeviceThemeName }>`
   box-shadow: inset 0 0 2.4em #555;
   background: ${({ deviceTheme }) => getTheme(deviceTheme).body.background};
   -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)));
-  animation: descend 1.5s ease;
   overflow: hidden;
 
   @media (prefers-color-scheme: dark) {

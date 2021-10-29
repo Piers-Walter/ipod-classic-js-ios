@@ -66,7 +66,7 @@ export const useSpotifySDK = (): SpotifySDKHook => {
     if (!isSpotifyAuthorized) {
       window.open(
         `${API_URL}/${Utils.isDev() ? 'login_dev' : 'login'}`,
-        '_self'
+        '_system'
       );
     } else {
       setService('spotify');
@@ -137,7 +137,7 @@ export const SpotifySDKProvider = ({ children }: Props) => {
       setToken(accessToken);
 
       const player = new window.Spotify.Player({
-        name: 'iPod Classic',
+        name: 'SpotiPod',
         getOAuthToken: async (cb: (token: string) => void) => {
           const { storedAccessToken } = SpotifyUtils.getExistingTokens();
 

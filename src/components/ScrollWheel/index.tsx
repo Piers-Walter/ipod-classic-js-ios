@@ -5,6 +5,8 @@ import { useEffectOnce, useEventListener, useSettings } from 'hooks';
 import Knob from './Knob';
 import { createIpodEvent } from 'utils/events';
 import { getTheme } from '../../utils/themes';
+import useHapticFeedback from 'hooks/useHapticFeedback';
+
 
 enum WHEEL_QUADRANT {
   TOP = 1,
@@ -39,6 +41,7 @@ const ScrollWheel = () => {
   const { deviceTheme } = useSettings();
   const [count, setCount] = useState(0);
   const timeoutIdRef = useRef<any>();
+  const { triggerHaptics } = useHapticFeedback();
 
   const handleCenterClick = useCallback(
     () => window.dispatchEvent(centerClickEvent),
@@ -56,7 +59,9 @@ const ScrollWheel = () => {
   }, []);
 
   const handleClockwiseScroll = useCallback(
-    () => window.dispatchEvent(forwardScrollEvent),
+    () => {
+      window.dispatchEvent(forwardScrollEvent)
+    },
     []
   );
 
@@ -74,6 +79,7 @@ const ScrollWheel = () => {
 
   const handleWheelClick = useCallback(
     (quadrant: number) => {
+      triggerHaptics(10);
       window.dispatchEvent(wheelClickEvent);
 
       switch (quadrant) {

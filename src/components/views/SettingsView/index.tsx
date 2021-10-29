@@ -46,12 +46,6 @@ const SettingsView = () => {
         listOptions: [
           {
             type: 'Action',
-            isSelected: service === 'apple',
-            label: `Apple Music ${service === 'apple' ? '(Current)' : ''}`,
-            onSelect: signInWithApple,
-          },
-          {
-            type: 'Action',
             isSelected: service === 'spotify',
             label: `Spotify ${service === 'spotify' ? '(Current)' : ''}`,
             onSelect: signInWithSpotify,
@@ -91,11 +85,6 @@ const SettingsView = () => {
         id: ViewOptions.signinPopup.id,
         label: 'Sign in',
         listOptions: [
-          {
-            type: 'Action',
-            label: 'Apple Music',
-            onSelect: signInWithApple,
-          },
           {
             type: 'Action',
             label: 'Spotify',

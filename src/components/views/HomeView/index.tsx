@@ -32,7 +32,7 @@ const strings = {
 
 const HomeView = () => {
   const { isAuthorized } = useSettings();
-  const { signIn: signInWithApple } = useMusicKit();
+  // const { signIn: signInWithApple } = useMusicKit();
   const { nowPlayingItem } = useAudioPlayer();
   const { signIn: signInWithSpotify } = useSpotifySDK();
   const { showWindow, windowStack } = useWindowContext();
@@ -74,11 +74,6 @@ const HomeView = () => {
         listOptions: [
           {
             type: 'Action',
-            label: 'Apple Music',
-            onSelect: signInWithApple,
-          },
-          {
-            type: 'Action',
             label: 'Spotify',
             onSelect: signInWithSpotify,
           },
@@ -93,7 +88,7 @@ const HomeView = () => {
         preview: PREVIEW.NOW_PLAYING,
       }),
     ],
-    [isAuthorized, nowPlayingItem, signInWithApple, signInWithSpotify]
+    [isAuthorized, nowPlayingItem, signInWithSpotify]
   );
 
   const [scrollIndex] = useScrollHandler(ViewOptions.home.id, options);
