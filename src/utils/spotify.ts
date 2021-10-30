@@ -90,6 +90,7 @@ const _getNewTokens = async (): Promise<TokenResponse> => {
   const urlParams = url.searchParams;
   const code = urlParams.get('code') ?? undefined;
   const state = urlParams.get('state') ?? undefined;
+  console.log("Getting tokens, code: " + code + " \nState: " + state);
 
   if (!code || !state) {
     return {};

@@ -9,9 +9,9 @@ const renderReactDom = () =>{
 
 declare let window: any;
 
-if (window.cordova) {
-    window.screen?.orientation?.lock('portrait')
+if (window.cordova && Object.keys(window.cordova).length != 0) {
     document.addEventListener('deviceready', () => {
+      window.screen.orientation.lock('portrait')
       renderReactDom();
     }, false);
   } else {

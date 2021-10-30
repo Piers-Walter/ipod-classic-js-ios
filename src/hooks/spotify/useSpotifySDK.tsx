@@ -16,6 +16,11 @@ import { useEffectOnce, useSettings } from '../';
 
 export const API_URL = 'https://b7d1fdb16506.ngrok.io';
 
+declare global{
+  interface Window { cordova: any; }
+}
+window.cordova = window.cordova || {};
+
 export interface SpotifySDKState {
   isMounted: boolean;
   spotifyPlayer: Spotify.Player;
@@ -64,10 +69,36 @@ export const useSpotifySDK = (): SpotifySDKHook => {
     }
 
     if (!isSpotifyAuthorized) {
-      window.open(
-        `${API_URL}/${Utils.isDev() ? 'login_dev' : 'login'}`,
-        '_system'
-      );
+      if(window.cordova && Object.keys(window.cordova).length != 0){
+        console.log("Opening Cordova Window")
+        let loginWindow = window.cordova.InAppBrowser.open(
+          `${API_URL}/login_dev`,
+          "_blank",
+          "clearcache=yes"
+        )
+        loginWindow.addEventListener("loadstart",
+          (params: any)=>{
+            if(params.url.indexOf("http://localhost") > -1){
+              //Catch the code and pass to original page rather than localhost:3000
+              const code: String = params.url.split('?')[1]
+              console.log("Split code:" + code);
+              console.log("Setting location to: " + window.location.href.split('?')[0] + "?" + code)
+              let baseURL = window.location.href;
+              if(window.location.href.indexOf("?")>-1){
+                baseURL = window.location.href.split('?')[0]
+              }
+              window.location.href = baseURL + "?" + code;
+              loginWindow.close();
+            }
+          }
+        )
+      }else{
+        window.open(
+          `${API_URL}/${Utils.isDev() ? 'login_dev' : 'login'}`,
+          '_blank'
+        );
+      }
+      
     } else {
       setService('spotify');
     }
